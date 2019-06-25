@@ -1,0 +1,73 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    
+    <sys:String x:Key="ResourceDictionaryName">Loc-bg-BG</sys:String>
+
+    <sys:String x:Key="menu_btn_home">Начало</sys:String>
+    <sys:String x:Key="menu_btn_portal">Портал за рецепти</sys:String>
+    <sys:String x:Key="menu_btn_menumaker">Създател на меню</sys:String>
+    <sys:String x:Key="menu_btn_fridge">Хладилник</sys:String>
+    <sys:String x:Key="menu_btn_shoppinglist">Списък за пазар</sys:String>
+    <sys:String x:Key="menu_btn_profile">Профил</sys:String>
+    <sys:String x:Key="menu_btn_logout">Изход</sys:String>
+    <sys:String x:Key="btn_sign_in">Вход</sys:String>
+    <sys:String x:Key="btn_app_exit">Излез</sys:String>
+    <sys:String x:Key="tb_search">Търси</sys:String>
+    <sys:String x:Key="tb_cust_amount">Количество</sys:String>
+    <sys:String x:Key="tb_ingr_amount">Количество</sys:String>
+    <sys:String x:Key="tb_step_input">+ Добави стъпка</sys:String>
+    <sys:String x:Key="btn_add">+ Добави</sys:String>
+    <sys:String x:Key="btn_remove">Премахни</sys:String>
+    <sys:String x:Key="btn_cancel">Откажи</sys:String>
+    <sys:String x:Key="btn_publish">Публикувай</sys:String>
+    <sys:String x:Key="btn_edit">Редактирай</sys:String>
+    <sys:String x:Key="btn_clear">Изчисти</sys:String>
+    <sys:String x:Key="btn_save">Запази</sys:String>
+    <sys:String x:Key="l_savedrecipes">Запазени рецепти</sys:String>
+    <sys:String x:Key="l_createdrecipes">Създадени рецепти</sys:String>
+    <sys:String x:Key="l_cookedrecipes">Сготвени рецепти</sys:String>
+    <sys:String x:Key="l_Preferences">Предпочитания</sys:String>
+    <sys:String x:Key="l_RecipeTags">Тагове за рецептата</sys:String>
+    <sys:String x:Key="btn_create_recipe">Създай рецепта</sys:String>
+    <sys:String x:Key="btn_edit_prefs">Промени предпочитания</sys:String>
+
+    <sys:String x:Key="l_Ingredients">Съставки</sys:String>
+    <sys:String x:Key="l_tags">Тагове за рецептата</sys:String>
+    <sys:String x:Key="l_steps">Стъпки</sys:String>
+    <sys:String x:Key="l_timetags">За кога е рецептата</sys:String>
+    <sys:String x:Key="tb_recipe_desc">Опишете рецептата си</sys:String>
+    <sys:String x:Key="tb_timetocook">Време за готвене</sys:String>
+    <sys:String x:Key="tb_recipe_name">Име на рецепта</sys:String>
+
+
+    <sys:String x:Key="cb_breakfast">Закуска</sys:String>
+    <sys:String x:Key="cb_lunch">Обяд</sys:String>
+    <sys:String x:Key="cb_dinner">Вечеря</sys:String>
+
+    <sys:String x:Key="rb_cups">чаша(и)</sys:String>
+    <sys:String x:Key="rb_tbsp">супена лъжица</sys:String>
+    <sys:String x:Key="rb_tsp">чаена лъжица</sys:String>
+    <sys:String x:Key="rb_grams">грамове</sys:String>
+    <sys:String x:Key="rb_ml">мл</sys:String>
+    <sys:String x:Key="rb_count">бр</sys:String>
+  
+    <sys:String x:Key="pref_vegetarian">Вегетарианец съм</sys:String>
+    <sys:String x:Key="pref_vegan">Веган съм</sys:String>
+    <sys:String x:Key="pref_diabetic">Диабетик съм</sys:String>
+    <sys:String x:Key="pref_a_milk">Алергичен съм към мляко</sys:String>
+    <sys:String x:Key="pref_a_eggs">Алергичен съм към яйца</sys:String>
+    <sys:String x:Key="pref_a_gluten">Алергичен съм към глутен</sys:String>
+    <sys:String x:Key="pref_a_fish">Алергичен съм към риба</sys:String>
+    <sys:String x:Key="pref_a_nuts">Алергичен съм към ядки</sys:String>
+
+    <sys:String x:Key="recipe_pref_vegetarian">За вегетариянци</sys:String>
+    <sys:String x:Key="recipe_pref_vegan">За вегани</sys:String>
+    <sys:String x:Key="recipe_pref_diabetic">За диабетици</sys:String>
+    <sys:String x:Key="recipe_pref_a_milk">За хора алеркични към мляко</sys:String>
+    <sys:String x:Key="recipe_pref_a_eggs">За хора алеркични към яйца</sys:String>
+    <sys:String x:Key="recipe_pref_a_gluten">За хора алеркични към глутен</sys:String>
+    <sys:String x:Key="recipe_pref_a_fish">За хора алеркични към риба</sys:String>
+    <sys:String x:Key="recipe_pref_a_nuts">За хора алеркични към ядки</sys:String>
+
+</ResourceDictionary>

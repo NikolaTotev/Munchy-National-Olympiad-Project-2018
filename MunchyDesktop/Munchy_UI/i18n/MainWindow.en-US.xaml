@@ -1,0 +1,74 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    
+    <sys:String x:Key="ResourceDictionaryName">Loc-en-US</sys:String>
+
+    <sys:String x:Key="menu_btn_home">Home</sys:String>
+    <sys:String x:Key="menu_btn_portal">Recipe portal</sys:String>
+    <sys:String x:Key="menu_btn_menumaker">Menu maker</sys:String>
+    <sys:String x:Key="menu_btn_fridge">Fridge</sys:String>
+    <sys:String x:Key="menu_btn_shoppinglist">Shopping list </sys:String>
+    <sys:String x:Key="menu_btn_profile">Profile</sys:String>
+    <sys:String x:Key="menu_btn_logout">Log out</sys:String>
+    <sys:String x:Key="btn_sign_in">Sign in</sys:String>
+    <sys:String x:Key="btn_app_exit">Exit</sys:String>
+    <sys:String x:Key="tb_search">Search</sys:String>
+    <sys:String x:Key="tb_cust_amount">Custom Amount</sys:String>
+    <sys:String x:Key="tb_ingr_amount">Ingredient Amount</sys:String>
+    <sys:String x:Key="tb_step_input">+ Add step</sys:String>
+    <sys:String x:Key="btn_add">+ Add</sys:String>
+    <sys:String x:Key="btn_remove">Remove</sys:String>
+    <sys:String x:Key="btn_cancel">Cancel</sys:String>
+    <sys:String x:Key="btn_publish">Publish</sys:String>
+    <sys:String x:Key="btn_edit">Edit</sys:String>
+    <sys:String x:Key="btn_clear">Clear</sys:String>
+    <sys:String x:Key="btn_save">Save</sys:String>
+    <sys:String x:Key="l_savedrecipes">Saved Recipes</sys:String>
+    <sys:String x:Key="l_createdrecipes">Created recipe </sys:String>
+    <sys:String x:Key="l_cookedrecipes">Cooked recipe </sys:String>
+    <sys:String x:Key="l_Preferences">Preferences</sys:String>
+    <sys:String x:Key="l_RecipeTags">Recipe tags</sys:String>
+    <sys:String x:Key="btn_create_recipe">Create recipe</sys:String>
+    <sys:String x:Key="btn_edit_prefs">Edit preferences</sys:String>
+
+    <sys:String x:Key="l_Ingredients">Ingredients</sys:String>
+    <sys:String x:Key="l_tags">Recipe tags</sys:String>
+    <sys:String x:Key="l_steps">Recipe steps</sys:String>
+    <sys:String x:Key="l_timetags">When is this recipe for</sys:String>
+    <sys:String x:Key="tb_recipe_desc">Describe your recipe</sys:String>
+    <sys:String x:Key="tb_timetocook">Cooking time</sys:String>
+    <sys:String x:Key="tb_recipe_name">Recipe name</sys:String>
+
+    <sys:String x:Key="cb_breakfast">Breakfast</sys:String>
+    <sys:String x:Key="cb_lunch">Lunch</sys:String>
+    <sys:String x:Key="cb_dinner">Dinner</sys:String>
+
+
+    <sys:String x:Key="rb_cups">cup(s)</sys:String>
+    <sys:String x:Key="rb_tbsp">tbsp</sys:String>
+    <sys:String x:Key="rb_tsp">tsp</sys:String>
+    <sys:String x:Key="rb_grams">grams</sys:String>
+    <sys:String x:Key="rb_ml">ml</sys:String>
+    <sys:String x:Key="rb_count">count</sys:String>
+
+    <sys:String x:Key="pref_vegetarian">I'm vegetarian</sys:String>
+    <sys:String x:Key="pref_vegan">I'm vegan</sys:String>
+    <sys:String x:Key="pref_diabetic">I'm diabetic</sys:String>
+    <sys:String x:Key="pref_a_milk">I'm allergic to milk</sys:String>
+    <sys:String x:Key="pref_a_eggs">I'm allergic to eggs</sys:String>
+    <sys:String x:Key="pref_a_gluten">I'm allergic to gluten</sys:String>
+    <sys:String x:Key="pref_a_fish">I'm allergic to fish</sys:String>
+    <sys:String x:Key="pref_a_nuts">I'm allergic to nuts</sys:String>
+
+    <sys:String x:Key="recipe_pref_vegetarian">For vegetarians</sys:String>
+    <sys:String x:Key="recipe_pref_vegan">For vegans</sys:String>
+    <sys:String x:Key="recipe_pref_diabetic">For diabetics</sys:String>
+    <sys:String x:Key="recipe_pref_a_milk">For people allergic to milk</sys:String>
+    <sys:String x:Key="recipe_pref_a_eggs">For people allergic to eggs</sys:String>
+    <sys:String x:Key="recipe_pref_a_gluten">For people allergic to gluten</sys:String>
+    <sys:String x:Key="recipe_pref_a_fish">For people allergic to fish</sys:String>
+    <sys:String x:Key="recipe_pref_a_nuts">For people allergic to nuts</sys:String>
+
+
+</ResourceDictionary>

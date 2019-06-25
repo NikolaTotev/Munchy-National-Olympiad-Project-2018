@@ -1,0 +1,2384 @@
+﻿<Window x:Class="Munchy_UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Munchy_UI"
+        mc:Ignorable="d"
+        
+        Title="Munchy" WindowStartupLocation="CenterScreen" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Width="900" Height="600" MinHeight="600" MinWidth="900" ResizeMode="CanMinimize" Closed="OnAppClose" >
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="i18n/MainWindow.en-US.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Storyboard x:Key="OpenMenuDrawer">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="MenuDrawer">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="MenuDrawer">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="916.329"/>
+                </DoubleAnimationUsingKeyFrames>
+                <Int32AnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.ZIndex)" Storyboard.TargetName="Btn_Fridge">
+                    <EasingInt32KeyFrame KeyTime="0:0:0.2" Value="2"/>
+                </Int32AnimationUsingKeyFrames>
+                <Int32AnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.ZIndex)" Storyboard.TargetName="MenuDrawer">
+                    <EasingInt32KeyFrame KeyTime="0" Value="3"/>
+                    <EasingInt32KeyFrame KeyTime="0:0:0.2" Value="3"/>
+                </Int32AnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="CloseMenuDrawer">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="MenuDrawer">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="916"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="7"/>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="MenuDrawer">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="HideFridgePanel">
+                <Int32AnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.ZIndex)" Storyboard.TargetName="FridgeGrid">
+                    <EasingInt32KeyFrame KeyTime="0" Value="-14"/>
+                </Int32AnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="FridgeGrid">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
+                </DoubleAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="FridgeGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="ShowFridgePanel">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="FridgeGrid">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
+                <Int32AnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.ZIndex)" Storyboard.TargetName="FridgeGrid">
+                    <EasingInt32KeyFrame KeyTime="0" Value="0"/>
+                    <EasingInt32KeyFrame KeyTime="0:0:0.2" Value="2"/>
+                </Int32AnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="FridgeGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="RecipeViewGrid">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
+                </DoubleAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeViewGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="ShoppingListGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="ShoppingListGrid">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
+                </DoubleAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="UserPanelGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeActionButtonGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipePortalGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SavedRecipesGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CreatedRecipesGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CookedRecipesGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CreateMenuGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="LoginPanel">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="AddIngrsMenu">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeStepsGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeTagInput">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="EditPrefTagsGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btn_MainMenuToggle">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="ShowRecipeViewGrid">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="RecipeViewGrid">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
+                <Int32AnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.ZIndex)" Storyboard.TargetName="RecipeViewGrid">
+                    <EasingInt32KeyFrame KeyTime="0" Value="0"/>
+                    <EasingInt32KeyFrame KeyTime="0:0:0.2" Value="2"/>
+                </Int32AnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeViewGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="FridgeGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="ShoppingListGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="ShoppingListGrid">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                </DoubleAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="UserPanelGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeActionButtonGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="EditPrefTagsGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipePortalGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CreateMenuGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SavedRecipesGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CreatedRecipesGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CookedRecipesGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="LoginPanel">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="AddIngrsMenu">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeStepsGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeTagInput">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btn_MainMenuToggle">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="HideRecipeViewPanel">
+                <Int32AnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.ZIndex)" Storyboard.TargetName="RecipeViewGrid">
+                    <EasingInt32KeyFrame KeyTime="0" Value="2"/>
+                    <EasingInt32KeyFrame KeyTime="0:0:0.1" Value="0"/>
+                </Int32AnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="RecipeViewGrid">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="ShowShoppingListPanel">
+                <Int32AnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.ZIndex)" Storyboard.TargetName="ShoppingListGrid">
+                    <EasingInt32KeyFrame KeyTime="0" Value="2"/>
+                    <EasingInt32KeyFrame KeyTime="0:0:0.2" Value="2"/>
+                </Int32AnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="ShoppingListGrid">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="FridgeGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="FridgeGrid">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
+                </DoubleAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeViewGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="RecipeViewGrid">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
+                </DoubleAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="ShoppingListGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Visible}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="UserPanelGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeActionButtonGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipePortalGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="EditPrefTagsGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SavedRecipesGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CreatedRecipesGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CookedRecipesGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CreateMenuGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="LoginPanel">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="AddIngrsMenu">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeStepsGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeTagInput">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="ShowUserPanelGrid">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="UserPanelGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="UserPanelGrid">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="FridgeGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="ShoppingListGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeViewGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeActionButtonGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <Int32AnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.ZIndex)" Storyboard.TargetName="RecipeActionButtonGrid">
+                    <EasingInt32KeyFrame KeyTime="0" Value="2"/>
+                </Int32AnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="EditPrefTagsGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Control.HorizontalContentAlignment)" Storyboard.TargetName="Lb_ListDisplayingAvailablePrefs">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static HorizontalAlignment.Left}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipePortalGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SavedRecipesGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CreatedRecipesGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CookedRecipesGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CreateMenuGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="LoginPanel">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="AddIngrsMenu">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeStepsGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeTagInput">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="ShowEditPrefs">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="EditPrefTagsGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Visible}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="EditPrefTagsGrid">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
+                <Int32AnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.ZIndex)" Storyboard.TargetName="EditPrefTagsGrid">
+                    <EasingInt32KeyFrame KeyTime="0" Value="2"/>
+                    <EasingInt32KeyFrame KeyTime="0:0:0.1" Value="0"/>
+                </Int32AnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="UserPanelGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipePortalGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="ShowRecipePortal">
+                <Int32AnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.ZIndex)" Storyboard.TargetName="RecipePortalGrid">
+                    <EasingInt32KeyFrame KeyTime="0" Value="2"/>
+                </Int32AnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipePortalGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Visible}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="RecipePortalGrid">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="UserPanelGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="ShoppingListGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="FridgeGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeActionButtonGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeViewGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SavedRecipesGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CreatedRecipesGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CookedRecipesGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btn_MainMenuToggle">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="ShowSavedRecipes">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SavedRecipesGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="SavedRecipesGrid">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
+                <Int32AnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.ZIndex)" Storyboard.TargetName="SavedRecipesGrid">
+                    <EasingInt32KeyFrame KeyTime="0" Value="2"/>
+                    <EasingInt32KeyFrame KeyTime="0:0:0.2" Value="0"/>
+                </Int32AnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipePortalGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="ShowCreatedRecipesGrid">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CreatedRecipesGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Visible}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="CreatedRecipesGrid">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipePortalGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CreateMenuGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="ShowCookedRecipeGrid">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipePortalGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="CookedRecipesGrid">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CookedRecipesGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Visible}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="OpenCreateRecipeGrid">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CreateMenuGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Visible}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="CreateMenuGrid">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0.5"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CreatedRecipesGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="AddIngrsMenu">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeStepsGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeTagInput">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btn_MainMenuToggle">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="ShowLogInScreen">
+                <Int32AnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.ZIndex)" Storyboard.TargetName="LoginPanel">
+                    <EasingInt32KeyFrame KeyTime="0" Value="3"/>
+                </Int32AnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="LoginPanel">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeViewGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeActionButtonGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="FridgeGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="ShoppingListGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="UserPanelGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="EditPrefTagsGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipePortalGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SavedRecipesGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CreatedRecipesGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CookedRecipesGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CreateMenuGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="ShowAddIngrMenu">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="AddIngrsMenu">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CreateMenuGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btn_MainMenuToggle">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="ShowAddStepMenu">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeStepsGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CreateMenuGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btn_MainMenuToggle">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="ShowAddTagsMenu">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeTagInput">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CreateMenuGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btn_MainMenuToggle">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="ShowLogin">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="LoginPanel">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeViewGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeActionButtonGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="FridgeGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="ShoppingListGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="UserPanelGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="EditPrefTagsGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipePortalGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SavedRecipesGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CreatedRecipesGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CookedRecipesGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="CreateMenuGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="AddIngrsMenu">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeStepsGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeTagInput">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <Int32AnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.ZIndex)" Storyboard.TargetName="LoginPanel">
+                    <EasingInt32KeyFrame KeyTime="0" Value="4"/>
+                </Int32AnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btn_MainMenuToggle">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="CloseLogin">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="LoginPanel">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btn_MainMenuToggle">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeViewGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RecipeActionButtonGrid">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="ShowInfo">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="InfoGrid">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="-10.5"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="-381"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:1" Value="-381"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:1.2" Value="-27"/>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="btn_MainMenuToggle">
+            <BeginStoryboard Storyboard="{StaticResource OpenMenuDrawer}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UIElement.MouseLeftButtonUp" SourceName="BlackoutGrid">
+            <BeginStoryboard x:Name="CloseMenuDrawer_BeginStoryboard" Storyboard="{StaticResource CloseMenuDrawer}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="Btn_CloseDrawer">
+            <BeginStoryboard x:Name="CloseMenuDrawer_BeginStoryboard1" Storyboard="{StaticResource CloseMenuDrawer}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="Btn_Home">
+            <BeginStoryboard x:Name="HideFridgePanel_BeginStoryboard" Storyboard="{StaticResource ShowRecipeViewGrid}"/>
+            <BeginStoryboard x:Name="CloseMenuDrawer_BeginStoryboard3" Storyboard="{StaticResource CloseMenuDrawer}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="Btn_Fridge">
+            <BeginStoryboard x:Name="CloseMenuDrawer_BeginStoryboard2" Storyboard="{StaticResource CloseMenuDrawer}"/>
+            <BeginStoryboard x:Name="ShowFridgePanel_BeginStoryboard" Storyboard="{StaticResource ShowFridgePanel}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="Btn_ShoppingList">
+            <BeginStoryboard Storyboard="{StaticResource ShowShoppingListPanel}"/>
+            <BeginStoryboard x:Name="CloseMenuDrawer_BeginStoryboard4" Storyboard="{StaticResource CloseMenuDrawer}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded"/>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="Btn_LogOut">
+            <BeginStoryboard x:Name="ShowLogin_BeginStoryboard" Storyboard="{StaticResource ShowLogin}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="btn_SavePrefs">
+            <BeginStoryboard x:Name="ShowUserPanelGrid_BeginStoryboard" Storyboard="{StaticResource ShowUserPanelGrid}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="btn_OpenEditPrefs">
+            <BeginStoryboard x:Name="ShowEditPrefs_BeginStoryboard" Storyboard="{StaticResource ShowEditPrefs}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="btn_CloseEditPrefs">
+            <BeginStoryboard x:Name="ShowUserPanelGrid_BeginStoryboard2" Storyboard="{StaticResource ShowUserPanelGrid}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="Btn_Profile">
+            <BeginStoryboard x:Name="CloseMenuDrawer_BeginStoryboard5" Storyboard="{StaticResource CloseMenuDrawer}"/>
+            <BeginStoryboard x:Name="ShowUserPanelGrid_BeginStoryboard1" Storyboard="{StaticResource ShowUserPanelGrid}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="Btn_RecipePortal">
+            <BeginStoryboard x:Name="CloseMenuDrawer_BeginStoryboard6" Storyboard="{StaticResource CloseMenuDrawer}"/>
+            <BeginStoryboard x:Name="ShowRecipePortal_BeginStoryboard" Storyboard="{StaticResource ShowRecipePortal}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UIElement.MouseUp" SourceName="Btn_SavedRecipes">
+            <BeginStoryboard x:Name="ShowSavedRecipes_BeginStoryboard" Storyboard="{StaticResource ShowSavedRecipes}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UIElement.MouseUp" SourceName="Btn_CreatedRecipes">
+            <BeginStoryboard x:Name="ShowCreatedRecipesGrid_BeginStoryboard" Storyboard="{StaticResource ShowCreatedRecipesGrid}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UIElement.MouseUp" SourceName="Btn_CookedRecipes">
+            <BeginStoryboard x:Name="ShowCookedRecipeGrid_BeginStoryboard" Storyboard="{StaticResource ShowCookedRecipeGrid}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UIElement.MouseUp" SourceName="Tb_SavedRecipesLabel">
+            <BeginStoryboard x:Name="ShowSavedRecipes_BeginStoryboard1" Storyboard="{StaticResource ShowSavedRecipes}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UIElement.MouseUp" SourceName="Tb_CreatedRecipesLabel">
+            <BeginStoryboard x:Name="ShowCreatedRecipesGrid_BeginStoryboard1" Storyboard="{StaticResource ShowCreatedRecipesGrid}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UIElement.MouseUp" SourceName="Tb_CookedRecipesLabel">
+            <BeginStoryboard x:Name="ShowCookedRecipeGrid_BeginStoryboard1" Storyboard="{StaticResource ShowCookedRecipeGrid}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="Btn_BackToRecipePortal_FromSaved">
+            <BeginStoryboard x:Name="ShowRecipePortal_BeginStoryboard1" Storyboard="{StaticResource ShowRecipePortal}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="Btn_BackToRecipePortal_FromCreated">
+            <BeginStoryboard x:Name="ShowRecipePortal_BeginStoryboard2" Storyboard="{StaticResource ShowRecipePortal}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="Btn_BackToRecipePortal_FromCooked">
+            <BeginStoryboard x:Name="ShowRecipePortal_BeginStoryboard3" Storyboard="{StaticResource ShowRecipePortal}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="btn_AddIngrs"/>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="btn_CreateRecipe">
+            <BeginStoryboard x:Name="OpenCreateRecipeGrid_BeginStoryboard1" Storyboard="{StaticResource OpenCreateRecipeGrid}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="btn_CancelRecipeCreation">
+            <BeginStoryboard x:Name="ShowCreatedRecipesGrid_BeginStoryboard2" Storyboard="{StaticResource ShowCreatedRecipesGrid}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="btn_ReturnToCreateMenu_ingrs">
+            <BeginStoryboard x:Name="OpenCreateRecipeGrid_BeginStoryboard" Storyboard="{StaticResource OpenCreateRecipeGrid}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="btn_ReturnToCreateMenu_steps">
+            <BeginStoryboard x:Name="OpenCreateRecipeGrid_BeginStoryboard2" Storyboard="{StaticResource OpenCreateRecipeGrid}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="btn_ReturnToCreateMenu_tags">
+            <BeginStoryboard x:Name="OpenCreateRecipeGrid_BeginStoryboard3" Storyboard="{StaticResource OpenCreateRecipeGrid}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="btn_SaveRecipeTags">
+            <BeginStoryboard x:Name="OpenCreateRecipeGrid_BeginStoryboard4" Storyboard="{StaticResource OpenCreateRecipeGrid}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="btn_AddIngrs">
+            <BeginStoryboard x:Name="ShowAddIngrMenu_BeginStoryboard" Storyboard="{StaticResource ShowAddIngrMenu}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="btn_AddSteps">
+            <BeginStoryboard x:Name="ShowAddStepMenu_BeginStoryboard" Storyboard="{StaticResource ShowAddStepMenu}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="btn_AddRecipeTags">
+            <BeginStoryboard x:Name="ShowAddTagsMenu_BeginStoryboard" Storyboard="{StaticResource ShowAddTagsMenu}"/>
+        </EventTrigger>
+    </Window.Triggers>
+    <Grid x:Name="CentralGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" MinWidth="50"/>
+
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto" MinWidth="50"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" MinHeight="51"/>
+            <RowDefinition/>
+            <RowDefinition Height="50" MinHeight="50"/>
+        </Grid.RowDefinitions>
+
+        <Button x:Name="btn_MainMenuToggle" RenderOptions.BitmapScalingMode="Fant" Content="" Margin="10,0,9,6" BorderBrush="{x:Null}" MinWidth="45" MinHeight="45">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border
+                                    x:Name="border"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0"
+                                    CornerRadius="0"
+                                    Width="45" 
+                                    Height="45
+                                    "
+                                    TextBlock.Foreground="Black">
+                                    <Grid>
+                                        <Image
+                                            x:Name="buttonImage"
+                                            Source ="Images/ic_menu_black_48dp.png"
+                                            Stretch="UniformToFill" />
+                                        <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                    </Grid>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="true">
+                                        <Setter TargetName="buttonImage" Property="Source" Value="Images/ic_menu_orange_48dp.png"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="true">
+                                        <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+
+        <Grid x:Name="RecipeViewGrid" Grid.Column="1" Grid.Row="1" Background="White" MinWidth="792" MinHeight="469" Grid.ColumnSpan="2" Margin="0,0,38,1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="390"/>
+                <ColumnDefinition Width="*" MinWidth="390
+                                  "/>
+            </Grid.ColumnDefinitions>
+            <Grid x:Name="RecipeImageAndDescGrid" Margin="10" Background="White" MinHeight="449">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" MinHeight="129"/>
+                    <RowDefinition Height="*" MinHeight="145"/>
+                </Grid.RowDefinitions>
+                <Grid x:Name="RecipeImageAndName" Margin="10,10,10,0" Background="White" MinWidth="356" MinHeight="214">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" MinWidth="100"/>
+                        <ColumnDefinition Width="*" MinWidth="100"/>
+                    </Grid.ColumnDefinitions>
+                    <Ellipse x:Name="Img_RecipeImage" Margin="0,10,3,30" MinWidth="175" MinHeight="175">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="Images/recipeimgloading.png"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <Grid Grid.Column="1" Background="White" MinWidth="178" MinHeight="214">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="43*" MinHeight="32"/>
+                            <RowDefinition Height="70*" MinHeight="32"/>
+                            <RowDefinition Height="102*" MinHeight="60"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock x:Name="Tb_RecipeName" TextWrapping="Wrap" MinWidth="70" MinHeight="16" FontFamily="Roboto" TextAlignment="Right" FontSize="24" Padding="0,10,0,0" Foreground="#FF424242"/>
+                        <TextBlock x:Name="Tb_RecipeAuthor" TextWrapping="Wrap" FontFamily="Roboto Thin" FontSize="18" TextAlignment="Right" TextDecorations="{x:Null}" FontStyle="Italic" Padding="0,0,0,10" Margin="0,0,0,23" Grid.Row="1" Foreground="#FF424242"/>
+                        <ListBox x:Name="Lb_OtherRecipeInfo" Grid.Row="2" MinWidth="178" MinHeight="86" FontSize="20" FontFamily="Roboto" BorderBrush="{x:Null}" HorizontalContentAlignment="Right" Foreground="#FF424242"/>
+                    </Grid>
+                </Grid>
+                <Grid x:Name="RecipeDesc" Margin="0,10,0,0" Grid.Row="1" Background="White">
+                    <Viewbox Stretch="Uniform" MinHeight="187" MinWidth="356" Margin="5">
+                        <TextBlock x:Name="Tb_RecipeDesc" Margin="10,0,10,150" TextWrapping="Wrap" FontFamily="Roboto" FontSize="72" TextAlignment="Right" MinWidth="356" MinHeight="146" Width="1011" Height="440" Padding="0,90,0,0" Foreground="#FF424242"/>
+                    </Viewbox>
+                </Grid>
+            </Grid>
+            <Grid x:Name="RecipeIngrGrid" Grid.Column="1" Margin="10" Background="White" MinHeight="449">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" MinHeight="220"/>
+                    <RowDefinition Height="*" MinHeight="230"/>
+                </Grid.RowDefinitions>
+                <Grid x:Name="GridIngrList" Background="White" MinWidth="385" MinHeight="220">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0*"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <ListBox x:Name="Lb_RecipeIngrList" Margin="10,0" Grid.RowSpan="2" MinWidth="340" MinHeight="200" BorderBrush="{x:Null}" FontSize="20" FontFamily="Roboto" VerticalContentAlignment="Top" Foreground="#FF424242"/>
+                </Grid>
+                <Grid x:Name="GridStepList" Grid.Row="1" MinWidth="385" MinHeight="229" Background="White">
+                    <ListBox x:Name="Lb_RecipeStepList" Margin="10" MinWidth="355" MinHeight="210" BorderBrush="{x:Null}" FontSize="20" FontFamily="Roboto" Foreground="#FF424242"/>
+                </Grid>
+            </Grid>
+        </Grid>
+        <Grid x:Name="RecipeActionButtonGrid" Grid.Column="1" Grid.Row="2" Background="White">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="191"/>
+                <ColumnDefinition Width="*" MinWidth="50"/>
+                <ColumnDefinition Width="*" MinWidth="50"/>
+                <ColumnDefinition Width="*" MinWidth="50"/>
+                <ColumnDefinition Width="*" MinWidth="50"/>
+                <ColumnDefinition Width="*" MinWidth="191"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btn_PreviousRecipe" Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="24,0,0,0" MinHeight="50" MinWidth="50" BorderBrush="{x:Null}" Click="btn_cmd_ShowPrevRecipe">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border
+                                    x:Name="border"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0"
+                                    CornerRadius="0"
+                                    Width="50" 
+                                    Height="50"
+                                    TextBlock.Foreground="Black">
+                                        <Grid>
+                                            <Image
+                                            x:Name="buttonImage"
+                                            Source ="Images/ic_navigate_before_black_48dp.png"
+                                            Stretch="UniformToFill" />
+                                            <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="buttonImage" Property="Source" Value="Images/btn_prev_orange.png" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button x:Name="btn_CookRecipe" Content="" Grid.Column="2" HorizontalAlignment="Left" Margin="25,0,0,0" MinWidth="50" MinHeight="50" Click="btn_cmd_addtocookedrecipes">
+                <Button.Background>
+                    <ImageBrush ImageSource="Images/ic_restaurant_menu_black_48dp.png"/>
+                </Button.Background>
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border
+                                    x:Name="border"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0"
+                                    CornerRadius="0"
+                                     Width="50" 
+                                    Height="50"
+                                    TextBlock.Foreground="Black">
+                                        <Grid>
+                                            <Image
+                                            x:Name="buttonImage"
+                                            Source ="Images/ic_restaurant_menu_black_48dp.png"
+                                            Stretch="UniformToFill" />
+                                            <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="buttonImage" Property="Source" Value="Images/btn_cook_orange.png" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button x:Name="btn_SaveRecipe" Content="" Grid.Column="3" HorizontalAlignment="Left" Margin="27,0,0,0" Width="50" Height="50" BorderBrush="{x:Null}" Click="btn_cmd_addtosavedrecipes">
+                <Button.Background>
+                    <ImageBrush/>
+                </Button.Background>
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border
+                                    x:Name="border"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0"
+                                    CornerRadius="0"
+                                    MinWidth="50" 
+                                    MinHeight="50"
+                                    TextBlock.Foreground="Black">
+                                        <Grid>
+                                            <Image
+                                            x:Name="buttonImage"
+                                            Source ="Images/ic_favorite_border_black_48dp.png"
+                                            Stretch="Fill" />
+                                            <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="buttonImage" Property="Source" Value="Images/like_orange.png" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button x:Name="btn_NextRecipe" Content="" Grid.Column="4" HorizontalAlignment="Left" Margin="10,0,0,0" MinWidth="50" MinHeight="50" BorderBrush="{x:Null}" Click="btn_cmd_ShowNextRecipe" Width="35.6">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border
+                                    x:Name="border"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0"
+                                    CornerRadius="0"
+                                    MinWidth="50" 
+                                    MinHeight="50"
+                                    TextBlock.Foreground="Black">
+                                        <Grid>
+                                            <Image
+                                            x:Name="buttonImage"
+                                            Source ="Images/ic_navigate_next_black_48dp.png"
+                                            Stretch="Fill" />
+                                            <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="buttonImage" Property="Source" Value="Images/btn_next_orange.png" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid x:Name="MenuDrawer" MinWidth="794" MinHeight="471" Grid.RowSpan="3" Margin="-916.5,0,72.5,0" RenderTransformOrigin="0.5,0.5">
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Grid.RenderTransform>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="280*" MinWidth="280"/>
+                <ColumnDefinition Width="619*" MinWidth="619"/>
+            </Grid.ColumnDefinitions>
+            <Grid x:Name="MenuListGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Background="White" MinHeight="571" MinWidth="280" Height="571" Grid.ColumnSpan="2" Width="330" Panel.ZIndex="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="61*" MinHeight="100"/>
+                    <RowDefinition Height="29*" MinHeight="449"/>
+                    <RowDefinition Height="196*"/>
+                </Grid.RowDefinitions>
+                <Grid x:Name="HeaderGrid" MinWidth="280" MinHeight="122" Background="#FFFF8F00" Margin="0,0,0,448.787" Grid.RowSpan="2">
+                    <TextBlock x:Name="Tb_DrawerName" Margin="0,54,0,10" TextWrapping="Wrap" MinWidth="100" MinHeight="48" FontFamily="Roboto Black" FontSize="20" TextAlignment="Center" Foreground="#FF424242"><Run Text="UserName"/></TextBlock>
+                </Grid>
+                <Grid x:Name="MenuBtnsGrid" HorizontalAlignment="Left" Height="449.213" Grid.Row="1" VerticalAlignment="Top" Width="280" Grid.RowSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="51*"/>
+                        <ColumnDefinition Width="229*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="32*"/>
+                        <RowDefinition Height="32*"/>
+                        <RowDefinition Height="32*"/>
+                        <RowDefinition Height="32*"/>
+                        <RowDefinition Height="32*"/>
+                        <RowDefinition Height="32*"/>
+                        <RowDefinition Height="32*"/>
+                        <RowDefinition Height="29*"/>
+                    </Grid.RowDefinitions>
+                    <Button x:Name="Btn_Home" Content="{DynamicResource ResourceKey=menu_btn_home}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="229" Height="56.817" Background="White" FontFamily="Roboto" FontSize="22" BorderBrush="{x:Null}" HorizontalContentAlignment="Left" Foreground="#FF616161">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border
+                                    RenderOptions.EdgeMode="Aliased"
+                                    x:Name="border"
+                                    Background="White"
+                                    Width="229"
+                                    BorderBrush="Transparent"
+                                    HorizontalAlignment="Left"
+                                    BorderThickness="5"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="#FF424242">
+                                                <Grid>
+                                                    <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center" />
+                                                </Grid>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="true">
+                                                    <Setter TargetName="border" Property="TextBlock.Foreground" Value="#FFFF8F00" />
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="true">
+                                                    <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button x:Name="Btn_RecipePortal" Content="{DynamicResource ResourceKey=menu_btn_portal}" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="229" Height="56.817" Background="White" FontFamily="Roboto" FontSize="22" BorderBrush="{x:Null}" HorizontalContentAlignment="Left" Foreground="#FF616161">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border
+                                    RenderOptions.EdgeMode="Aliased"
+                                    x:Name="border"
+                                    Background="White"
+                                    Width="229"
+                                    BorderBrush="Transparent"
+                                    HorizontalAlignment="Left"
+                                    BorderThickness="5"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="#FF424242">
+                                                <Grid>
+                                                    <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center" />
+                                                </Grid>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="true">
+                                                    <Setter TargetName="border" Property="TextBlock.Foreground" Value="#FFFF8F00" />
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="true">
+                                                    <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button x:Name="Btn_Fridge" Content="{DynamicResource ResourceKey=menu_btn_fridge}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="229" Height="56.818" Grid.Row="2" Background="White" FontFamily="Roboto" FontSize="22" BorderBrush="{x:Null}" HorizontalContentAlignment="Left" Click="btn_cmd_fridgeopen" Margin="0,-0.001,0,0" Foreground="#FF616161">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border
+                                    RenderOptions.EdgeMode="Aliased"
+                                    x:Name="border"
+                                    Background="White"
+                                    Width="229"
+                                    BorderBrush="Transparent"
+                                    HorizontalAlignment="Left"
+                                    BorderThickness="5"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="#FF424242">
+                                                <Grid>
+                                                    <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center" />
+                                                </Grid>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="true">
+                                                    <Setter TargetName="border" Property="TextBlock.Foreground" Value="#FFFF8F00" />
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="true">
+                                                    <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button x:Name="Btn_ShoppingList" Content="{DynamicResource ResourceKey=menu_btn_shoppinglist}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="267" Height="55" Margin="0,2,-38,0" Grid.Row="3" Background="White" FontFamily="Roboto" FontSize="22" BorderBrush="{x:Null}" HorizontalContentAlignment="Left" Click="btn_cmd_openshoppinglist" Foreground="#FF616161">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border
+                                    RenderOptions.EdgeMode="Aliased"
+                                    x:Name="border"
+                                    Background="White"
+                                    Width="229"
+                                    BorderBrush="Transparent"
+                                    HorizontalAlignment="Left"
+                                    BorderThickness="5"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="#FF424242">
+                                                <Grid>
+                                                    <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center" />
+                                                </Grid>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="true">
+                                                    <Setter TargetName="border" Property="TextBlock.Foreground" Value="#FFFF8F00" />
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="true">
+                                                    <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button x:Name="Btn_Profile" Content="{DynamicResource ResourceKey=menu_btn_profile}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="229" Height="56.818" Grid.Row="4" Background="White" FontFamily="Roboto" FontSize="22" BorderBrush="{x:Null}" HorizontalContentAlignment="Left" Click="btn_cmd_openprofile" Margin="0,-0.001,0,0" Foreground="#FF616161">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border
+                                    RenderOptions.EdgeMode="Aliased"
+                                    x:Name="border"
+                                    Background="White"
+                                    Width="229"
+                                    BorderBrush="Transparent"
+                                    HorizontalAlignment="Left"
+                                    BorderThickness="5"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="#FF424242">
+                                                <Grid>
+                                                    <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center" />
+                                                </Grid>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="true">
+                                                    <Setter TargetName="border" Property="TextBlock.Foreground" Value="#FFFF8F00" />
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="true">
+                                                    <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button x:Name="Btn_LogOut" Content="{DynamicResource ResourceKey=menu_btn_logout}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="229" Height="56.817" Grid.Row="5" Background="White" FontFamily="Roboto" FontSize="22" BorderBrush="{x:Null}" HorizontalContentAlignment="Left" Foreground="#FF616161">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border
+                                    RenderOptions.EdgeMode="Aliased"
+                                    x:Name="border"
+                                    Background="White"
+                                    Width="229"
+                                    BorderBrush="Transparent"
+                                    HorizontalAlignment="Left"
+                                    BorderThickness="5"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="#FF424242">
+                                                <Grid>
+                                                    <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center" />
+                                                </Grid>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="true">
+                                                    <Setter TargetName="border" Property="TextBlock.Foreground" Value="#FFFF8F00" />
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="true">
+                                                    <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Rectangle x:Name="Img_Menu_LogOut" RenderOptions.BitmapScalingMode="Fant" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="25" Grid.Row="5" Margin="10,19,0,0">
+                        <Rectangle.Fill>
+                            <ImageBrush ImageSource="Images/ic_exit_to_app_black_48dp.png" Stretch="UniformToFill" TileMode="Tile"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Rectangle x:Name="Img_Menu_Profile" RenderOptions.BitmapScalingMode="Fant" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="25" Grid.Row="4" Margin="10,18.999,0,0">
+                        <Rectangle.Fill >
+                            <ImageBrush  ImageSource="Images/ic_settings_black_48dp.png" Stretch="UniformToFill"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Rectangle x:Name="Img_Menu_ShoppingList" RenderOptions.BitmapScalingMode="Fant" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="25" Grid.Row="3" Margin="11,19,0,0">
+                        <Rectangle.Fill>
+                            <ImageBrush   ImageSource="Images/ic_shopping_basket_black_48dp.png" Stretch="UniformToFill"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Rectangle x:Name="Img_Menu_Fridge" RenderOptions.BitmapScalingMode="Fant" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="25" Grid.Row="2" Margin="10,18.999,0,0">
+                        <Rectangle.Fill>
+                            <ImageBrush ImageSource="Images/icon_fridge_big.png" Stretch="UniformToFill"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Rectangle x:Name="Img_Menu_RecipePortal" RenderOptions.BitmapScalingMode="Fant" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="25" Grid.Row="1" Margin="10,19,0,0">
+                        <Rectangle.Fill>
+                            <ImageBrush ImageSource="Images/ic_import_contacts_black_48dp.png" Stretch="UniformToFill"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Rectangle x:Name="Img_Menu_Home"  RenderOptions.BitmapScalingMode="Fant" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="25" Margin="10,19,0,0">
+                        <Rectangle.Fill>
+                            <ImageBrush ImageSource="Images/ic_home_black_48dp.png" Stretch="UniformToFill"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Button x:Name="Btn_LogOut_Copy" Content="BG" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35" Height="41" Grid.Row="6" Background="White" FontFamily="Roboto" FontSize="22" BorderBrush="{x:Null}" HorizontalContentAlignment="Left" Grid.Column="1" Margin="5,7.999,0,0" Click="ChangeLanguage" Tag="bg-BG" Foreground="#FF616161">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border
+                                    RenderOptions.EdgeMode="Aliased"
+                                    x:Name="border"
+                                    Background="White"
+                                    Width="40"
+                                    BorderBrush="Transparent"
+                                    HorizontalAlignment="Left"
+                                    BorderThickness="5"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="#FF424242">
+                                                <Grid>
+                                                    <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center" />
+                                                </Grid>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="true">
+                                                    <Setter TargetName="border" Property="TextBlock.Foreground" Value="#FFFF8F00" />
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="true">
+                                                    <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button x:Name="Btn_LogOut_Copy1" Content="US" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35" Height="41" Grid.Row="6" Background="White" FontFamily="Roboto" FontSize="22" BorderBrush="{x:Null}" HorizontalContentAlignment="Left" Margin="16,7.999,0,0" Click="ChangeLanguage" Tag="en-US" Foreground="#FF616161">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border
+                                    RenderOptions.EdgeMode="Aliased"
+                                    x:Name="border"
+                                    Background="White"
+                                    Width="40"
+                                    BorderBrush="Transparent"
+                                    HorizontalAlignment="Left"
+                                    BorderThickness="5"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="#FF424242">
+                                                <Grid>
+                                                    <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center" />
+                                                </Grid>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="true">
+                                                    <Setter TargetName="border" Property="TextBlock.Foreground" Value="#FFFF8F00" />
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="true">
+                                                    <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </Grid>
+            </Grid>
+            <Grid x:Name="BlackoutGrid" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#E5292929" MinHeight="571" MinWidth="614">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="61*"/>
+                    <RowDefinition Height="510*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="261*"/>
+                    <ColumnDefinition Width="46*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="Btn_CloseDrawer" Content="" HorizontalAlignment="Left" Height="40" Margin="33,11,0,0" VerticalAlignment="Top" Width="40" BorderBrush="{x:Null}" Grid.Column="1">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border
+                                    x:Name="border"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="Black">
+                                            <Grid>
+                                                <Image
+                                            x:Name="buttonImage"
+                                            Source ="Images/ic_arrow_back_white_48dp.png"
+                                            Stretch="UniformToFill" />
+                                                <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                            </Grid>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="true">
+                                                <Setter TargetName="buttonImage" Property="Source" Value="Images/OrangeArrow.png" />
+
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="true">
+                                                <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
+        </Grid>
+        <Grid x:Name="FridgeGrid" Grid.Column="1" Grid.Row="1" Background="White" MinWidth="753" MinHeight="471" Margin="0,0,36,49" Grid.ColumnSpan="2" Grid.RowSpan="2" Visibility="Hidden">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="385*"/>
+                <RowDefinition Height="87*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="400"/>
+                <ColumnDefinition Width="*" MinWidth="400"/>
+            </Grid.ColumnDefinitions>
+            <ListBox x:Name="Lb_Fridge" HorizontalAlignment="Left" Height="352" Margin="38,47,0,0" VerticalAlignment="Top" Width="320" BorderBrush="#FFFF8F00" FontSize="16" SelectedIndex="0" Grid.RowSpan="2"/>
+            <TextBox x:Name="Tb_SearchForFridge" Grid.Column="1" HorizontalAlignment="Left" Height="32" Margin="32,10,0,0" TextWrapping="Wrap" Text="{DynamicResource ResourceKey=tb_search}" VerticalAlignment="Top" Width="328" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20" FontFamily="Roboto" Foreground="#FFFF8F00" SelectionBrush="#7FFF8F00" BorderBrush="#FF515151" Visibility="Hidden"/>
+            <ListBox x:Name="Lb_FridgeSearchResults" Grid.Column="1" HorizontalAlignment="Left" Height="289" Margin="32,47,0,0" VerticalAlignment="Top" Width="328" BorderBrush="#7FFF8F00" FontFamily="Roboto" FontSize="18" SelectionChanged="FridgeSearchResultSelectionChanged"/>
+            <TextBox x:Name="Tb_CustomAmountInput" Grid.Column="1" HorizontalAlignment="Left" Height="32" Margin="32,367,0,0" TextWrapping="Wrap" Text="{DynamicResource ResourceKey=tb_cust_amount}" VerticalAlignment="Top" Width="328" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20" FontFamily="Roboto Light" Foreground="#FFFF8F00" SelectionBrush="#7FFF8F00" BorderBrush="#FF252525" GotFocus="tb_got_focus" Grid.RowSpan="2"/>
+            <TextBlock HorizontalAlignment="Left" Height="45" Margin="38,2,0,0" TextWrapping="Wrap" Text="{DynamicResource ResourceKey=menu_btn_fridge}" VerticalAlignment="Top" Width="320" FontFamily="Roboto Black" FontSize="36" Foreground="#FF424242"/>
+            <Button x:Name="btn_remove" Content="{DynamicResource ResourceKey=btn_remove}" HorizontalAlignment="Left" Height="37" Margin="121.667,33.414,0,0" Grid.Row="1" VerticalAlignment="Top" Width="132" Click="btn_cmd_removefromfridge" Background="#FFFF8F00" BorderBrush="{x:Null}" Foreground="White" FontFamily="Roboto Black" FontSize="22"/>
+            <Button Content="{DynamicResource ResourceKey=btn_add}" Grid.Column="1" HorizontalAlignment="Left" Height="35" Margin="144,34.414,0,0" Grid.Row="1" VerticalAlignment="Top" Width="139" Click="btn_cmd_addselectiontofridge" Background="#FFFF8F00" BorderBrush="{x:Null}" Foreground="White" FontFamily="Roboto Black" FontSize="22"/>
+        </Grid>
+        <Grid x:Name="ShoppingListGrid" Grid.Column="1" HorizontalAlignment="Left" Height="471" Grid.Row="1" VerticalAlignment="Top" Width="789" Grid.RowSpan="2" Visibility="Hidden" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="400"/>
+                <ColumnDefinition Width="*" MinWidth="400"/>
+            </Grid.ColumnDefinitions>
+            <ListBox x:Name="Lb_ShoppingList" HorizontalAlignment="Left" Height="355.5" Margin="47.5,52.5,0,0" VerticalAlignment="Top" Width="314" BorderBrush="#FFFF8F00"/>
+            <TextBox x:Name="Tb_SearchForShoppingList" Grid.Column="1" HorizontalAlignment="Left" Height="36.545" Margin="10,10,0,0" TextWrapping="Wrap" Text="{DynamicResource ResourceKey=tb_search}" VerticalAlignment="Top" Width="369" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontFamily="Roboto" Foreground="#FFFF8F00" BorderBrush="#FFFF8F00" SelectionBrush="#7FFF8F00" GotFocus="tb_got_focus" Visibility="Hidden"/>
+
+            <ListBox x:Name="Lb_ShoppingListSearchResults" Grid.Column="1" HorizontalAlignment="Left" Height="355.5" Margin="10,52.5,0,0" VerticalAlignment="Top" Width="369" BorderBrush="#FFFF8F00"/>
+            <Button x:Name="btn_AddToShoppingList" Content="{DynamicResource ResourceKey=btn_add}" Grid.Column="1" HorizontalAlignment="Left" Height="33" Margin="145.5,420.997,0,0" VerticalAlignment="Top" Width="118" FontFamily="Roboto Black" FontSize="20" BorderBrush="{x:Null}" Background="#FFFF8F00" Foreground="White" Click="btn_cmd_addtoshoppinglist">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border
+                                    RenderOptions.EdgeMode="Aliased"
+                                    x:Name="border"
+                                    Background="#FFFF8F00"
+                                    BorderBrush="#FFFF8F00"
+                                    BorderThickness="5"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="#ffffff">
+                                        <Grid>
+                                            <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#ffffff"/>
+                                            <Setter TargetName="border" Property="TextBlock.Foreground" Value="#FFFF8F00" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button x:Name="btn_AddToShoppingList_Copy" Content="{DynamicResource ResourceKey=btn_remove}" HorizontalAlignment="Left" Height="33" Margin="143.5,420.997,0,0" VerticalAlignment="Top" Width="118" FontFamily="Roboto Black" FontSize="20" BorderBrush="{x:Null}" Background="#FFFF8F00" Foreground="White" Click="btn_cmd_removefromshoppinglist">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border
+                                        RenderOptions.EdgeMode="Aliased"
+                                        x:Name="border"
+                                        Background="#FFFF8F00"
+                                        BorderBrush="#FFFF8F00"
+                                        BorderThickness="5"
+                                        CornerRadius="0"
+                                        TextBlock.Foreground="#ffffff">
+                                        <Grid>
+                                            <ContentPresenter
+                                                Margin="{TemplateBinding Padding}"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#ffffff"/>
+                                            <Setter TargetName="border" Property="TextBlock.Foreground" Value="#FFFF8F00" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <TextBlock HorizontalAlignment="Left" Height="45" Margin="47.5,1.545,0,0" TextWrapping="Wrap" Text="{DynamicResource ResourceKey=menu_btn_shoppinglist}" VerticalAlignment="Top" Width="314" FontFamily="Roboto Black" FontSize="36" Foreground="#FF424242"/>
+        </Grid>
+        <Grid x:Name="UserPanelGrid" Grid.Column="1" HorizontalAlignment="Left" Height="471" Grid.Row="1" VerticalAlignment="Top" Width="779" Grid.RowSpan="2" Visibility="Hidden">
+            <TextBlock x:Name="Tb_ProfileName" HorizontalAlignment="Left" Margin="210,10,0,0" TextWrapping="Wrap" Text="User Name" VerticalAlignment="Top" Width="360" Height="60" TextAlignment="Center" FontFamily="Roboto Black" FontSize="48" Foreground="#FF424242"/>
+            <ListBox x:Name="Lb_PreferenceList" HorizontalAlignment="Left" Height="280" Margin="244,130,0,0" VerticalAlignment="Top" Width="304" FontFamily="Roboto" FontSize="18" Foreground="#FF424242" BorderBrush="#7FABADB3"/>
+            <ListBox x:Name="Lb_RecipeInfo" HorizontalAlignment="Left" Height="338.5" Margin="543,33.5,0,0" VerticalAlignment="Top" Width="226" FontFamily="Roboto" FontSize="18" Foreground="Black" BorderBrush="#7FABADB3" Visibility="Hidden"/>
+            <Button x:Name="btn_OpenEditPrefs" Content="{DynamicResource ResourceKey=btn_edit_prefs}" HorizontalAlignment="Left" Height="43" VerticalAlignment="Top" Width="304" FontFamily="Roboto Black" FontSize="20" BorderBrush="{x:Null}" Background="#FFFF8F00" Foreground="White" Margin="244,417,0,0">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border
+                                    RenderOptions.EdgeMode="Aliased"
+                                    x:Name="border"
+                                    Background="#FFFF8F00"
+                                    BorderBrush="#FFFF8F00"
+                                    BorderThickness="5"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="#ffffff">
+                                        <Grid>
+                                            <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#ffffff"/>
+                                            <Setter TargetName="border" Property="TextBlock.Foreground" Value="#FFFF8F00" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <TextBlock x:Name="lb_prefs" HorizontalAlignment="Left" Margin="244,87,0,0" TextWrapping="Wrap" Text="{DynamicResource ResourceKey=l_Preferences}" VerticalAlignment="Top" Width="222" Height="38" FontFamily="Roboto" FontSize="36" Foreground="#FF424242"/>
+        </Grid>
+        <Grid x:Name="EditPrefTagsGrid" Grid.Column="1" HorizontalAlignment="Left" Height="471" Grid.Row="1" VerticalAlignment="Top" Width="789" Grid.RowSpan="2" Visibility="Hidden" Grid.ColumnSpan="2">
+            <ListBox x:Name="Lb_ListDisplayingAvailablePrefs" HorizontalAlignment="Left" Height="308.5" Margin="257,50,0,0" VerticalAlignment="Top" Width="356.5" FontSize="18" FontFamily="Roboto" BorderBrush="{x:Null}" Foreground="#FF424242">
+                <TextBlock Text="{DynamicResource ResourceKey=l_Preferences}" FontSize="36" FontFamily="Roboto Black" Padding="0,0,0,5" Foreground="#FF424242"/>
+                <CheckBox x:Name="cb_vegetarian_usertag" Content="{DynamicResource ResourceKey=pref_vegetarian}" BorderBrush="#FFFF8F00" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="2" Margin="0,0,0,5" Checked="on_usertag_checked" Unchecked="on_usertag_unchecked" Foreground="#FF424242"/>
+                <CheckBox x:Name="cb_vegan_usertag" Content="{DynamicResource ResourceKey=pref_vegan}" BorderBrush="#FFFF8F00" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="2" Margin="0,0,0,5" Checked="on_usertag_checked" Unchecked="on_usertag_unchecked" Foreground="#FF424242"/>
+                <CheckBox x:Name="cb_diabetic_usertag" Content="{DynamicResource ResourceKey=pref_diabetic}" BorderBrush="#FFFF8F00" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="2" Margin="0,0,0,5" Checked="on_usertag_checked" Unchecked="on_usertag_unchecked" Foreground="#FF424242"/>
+                <CheckBox x:Name="cb_a_dairy_usertag" Content="{DynamicResource ResourceKey=pref_a_milk}" BorderBrush="#FFFF8F00" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="2" Margin="0,0,0,5" Checked="on_usertag_checked" Unchecked="on_usertag_unchecked" Foreground="#FF424242"/>
+                <CheckBox x:Name="cb_a_eggs_usertag" Content="{DynamicResource ResourceKey=pref_a_eggs}" BorderBrush="#FFFF8F00" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="2" Margin="0,0,0,5" Checked="on_usertag_checked" Unchecked="on_usertag_unchecked" Foreground="#FF424242"/>
+                <CheckBox x:Name="cb_a_gluten_usertag" Content="{DynamicResource ResourceKey=pref_a_gluten}" BorderBrush="#FFFF8F00" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="2" Margin="0,0,0,5" Checked="on_usertag_checked" Unchecked="on_usertag_unchecked" Foreground="#FF424242"/>
+                <CheckBox x:Name="cb_a_fish_usertag" Content="{DynamicResource ResourceKey=pref_a_fish}" BorderBrush="#FFFF8F00" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="2" Margin="0,0,0,5" Checked="on_usertag_checked" Unchecked="on_usertag_unchecked" Foreground="#FF424242"/>
+                <CheckBox x:Name="cb_a_nuts_usertag" Content="{DynamicResource ResourceKey=pref_a_nuts}" BorderBrush="#FFFF8F00" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="2" Margin="0,0,0,5" Checked="on_usertag_checked" Unchecked="on_usertag_unchecked" Foreground="#FF424242"/>
+            </ListBox>
+            <Button x:Name="btn_SavePrefs" Content="{DynamicResource ResourceKey=btn_save}" HorizontalAlignment="Left" Height="43.5" VerticalAlignment="Top" Width="118" FontFamily="Roboto Black" FontSize="20" BorderBrush="{x:Null}" Background="#FFFF8F00" Foreground="White" Margin="323.75,394.5,0,0" Click="btn_cmd_saveusertags">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border
+                                    RenderOptions.EdgeMode="Aliased"
+                                    x:Name="border"
+                                    Background="#FFFF8F00"
+                                    BorderBrush="#FFFF8F00"
+                                    BorderThickness="5"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="#ffffff">
+                                        <Grid>
+                                            <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#ffffff"/>
+                                            <Setter TargetName="border" Property="TextBlock.Foreground" Value="#FFFF8F00" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button x:Name="btn_CloseEditPrefs" Content="" HorizontalAlignment="Left" Margin="749.5,0,0,0" VerticalAlignment="Top" Width="35" Height="35.5" BorderBrush="{x:Null}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border
+                                    x:Name="border"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="Black">
+                                        <Grid>
+                                            <Image
+                                            x:Name="buttonImage"
+                                            Source ="Images/ic_arrow_back_black_48dp.png"
+                                            Stretch="UniformToFill" />
+                                            <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="buttonImage" Property="Source" Value="Images/OrangeArrow.png" />
+
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid x:Name="RecipePortalGrid" Grid.Column="1" HorizontalAlignment="Left" Height="471" Grid.Row="1" VerticalAlignment="Top" Width="792" Grid.ColumnSpan="2" Visibility="Hidden" Grid.RowSpan="2">
+            <Ellipse x:Name="Btn_SavedRecipes" HorizontalAlignment="Left" Height="172" Margin="30,104,0,0" VerticalAlignment="Top" Width="172" MouseUp="btn_cmd_opensavedrecipes">
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="Images/seen_recipes.png"/>
+                </Ellipse.Fill>
+            </Ellipse>
+            <Ellipse x:Name="Btn_CreatedRecipes" HorizontalAlignment="Left" Height="172" Margin="317,104,0,0" VerticalAlignment="Top" Width="172" MouseUp="btn_cmd_opencreatedrecipes">
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="Images/created_recipes.png"/>
+                </Ellipse.Fill>
+            </Ellipse>
+            <Ellipse x:Name="Btn_CookedRecipes" HorizontalAlignment="Left" Height="172" Margin="587,104,30,0" VerticalAlignment="Top" Width="172" MouseUp="btn_cmd_opencookedrecipes">
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="Images/cookedrecipes.png"/>
+                </Ellipse.Fill>
+            </Ellipse>
+            <TextBlock x:Name="Tb_SavedRecipesLabel" HorizontalAlignment="Left" Height="81" Margin="30,303.5,0,0" TextWrapping="Wrap" Text="{DynamicResource ResourceKey=l_savedrecipes}" VerticalAlignment="Top" Width="172" TextAlignment="Center" FontFamily="Roboto Black" FontSize="25" MouseUp="btn_cmd_opensavedrecipes" Foreground="#FF424242"/>
+            <TextBlock x:Name="Tb_CreatedRecipesLabel" HorizontalAlignment="Left" Height="81" Margin="308,303.5,0,0" TextWrapping="Wrap" Text="{DynamicResource ResourceKey=l_createdrecipes}" VerticalAlignment="Top" Width="191.5" TextAlignment="Center" FontFamily="Roboto Black" FontSize="25" MouseUp="btn_cmd_opencreatedrecipes" Foreground="#FF424242"/>
+            <TextBlock x:Name="Tb_CookedRecipesLabel" HorizontalAlignment="Left" Height="81" Margin="579.5,303.5,0,0" TextWrapping="Wrap" Text="{DynamicResource ResourceKey=l_cookedrecipes}" VerticalAlignment="Top" Width="188.5" TextAlignment="Center" FontFamily="Roboto Black" FontSize="25" MouseUp="btn_cmd_opencookedrecipes" Foreground="#FF424242"/>
+        </Grid>
+        <Grid x:Name="SavedRecipesGrid" Grid.Column="1" HorizontalAlignment="Left" Height="471" Grid.Row="1" VerticalAlignment="Top" Width="789" Grid.RowSpan="2" Visibility="Hidden" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="400"/>
+                <ColumnDefinition Width="*" MinWidth="400"/>
+            </Grid.ColumnDefinitions>
+            <ListBox x:Name="Lb_SavedRecipes" HorizontalAlignment="Left" Height="411" Margin="10,50,0,0" VerticalAlignment="Top" Width="354.5" SelectionChanged="Lb_SavedRecipesSelectionChanged" MouseDoubleClick="doubleclick_open_from_saved"/>
+            <Ellipse x:Name="Img_prev_saved" Grid.Column="1" HorizontalAlignment="Left" Height="188.5" Margin="101.5,10,0,0" VerticalAlignment="Top" Width="188.5">
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="Images/munchyIconv2.png"/>
+                </Ellipse.Fill>
+            </Ellipse>
+            <TextBlock x:Name="Tb_prev_name_saved" Grid.Column="1" HorizontalAlignment="Left" Margin="0,219.5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="32.293" Width="389" FontFamily="Roboto Black" FontSize="24" TextAlignment="Center"/>
+            <TextBlock x:Name="Tb_prev_author_saved" Grid.Column="1" HorizontalAlignment="Left" Margin="0,256.793,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28.96" Width="389" FontFamily="Roboto Thin" FontSize="20" TextAlignment="Center"><Run FontFamily="Roboto Light" Text=""/></TextBlock>
+            <TextBlock x:Name="Tb_prev_rating_saved" Grid.Column="1" HorizontalAlignment="Left" Margin="0,290.753,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="27.46" Width="389" FontFamily="Roboto Thin" FontSize="16" TextAlignment="Center"/>
+            <TextBlock x:Name="Tb_prev_desc_saved" Grid.Column="1" HorizontalAlignment="Left" Margin="0,318.213,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="142.787" Width="379" FontFamily="Roboto Thin" FontSize="20" TextAlignment="Center"><Run FontFamily="Roboto Light" Text=""/></TextBlock>
+            <Button x:Name="Btn_BackToRecipePortal_FromSaved" Content="" Grid.Column="1" HorizontalAlignment="Left" Height="35" Margin="344,0,0,0" VerticalAlignment="Top" Width="35" BorderBrush="{x:Null}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border
+                                    x:Name="border"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="Black">
+                                        <Grid>
+                                            <Image
+                                            x:Name="buttonImage"
+                                            Source ="Images/ic_arrow_back_black_48dp.png"
+                                            Stretch="UniformToFill" />
+                                            <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="buttonImage" Property="Source" Value="Images/OrangeArrow.png" />
+
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <ListBoxItem x:Name="Lb_Title_CreatedRecipes_Copy1" Content="{DynamicResource ResourceKey=l_savedrecipes}" FontSize="30" FontFamily="Roboto Black" Foreground="#FF424242" Margin="10,4.993,39.5,426"/>
+        </Grid>
+        <Grid x:Name="CreatedRecipesGrid" Grid.Column="1" HorizontalAlignment="Left" Height="471" Grid.Row="1" VerticalAlignment="Top" Width="789" Grid.RowSpan="2" Visibility="Hidden" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="400"/>
+                <ColumnDefinition Width="*" MinWidth="400"/>
+            </Grid.ColumnDefinitions>
+            <ListBox x:Name="Lb_CreatedRecipes" HorizontalAlignment="Left" Height="381.033" Margin="10,79.967,0,0" VerticalAlignment="Top" Width="360.5" SelectionChanged="Lb_CreatedRecipesSelectionChanged" MouseDoubleClick="doubleclick_open_from_created"/>
+            <Ellipse x:Name="Img_prev_created" Grid.Column="1" HorizontalAlignment="Left" Height="188.5" Margin="101.5,10,0,0" VerticalAlignment="Top" Width="188.5">
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="Images/munchyIconv2.png"/>
+                </Ellipse.Fill>
+            </Ellipse>
+            <TextBlock x:Name="Tb_prev_name_created" Grid.Column="1" HorizontalAlignment="Left" Margin="0,219.5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="32.293" Width="389" FontFamily="Roboto Black" FontSize="24" TextAlignment="Center"/>
+            <TextBlock x:Name="Tb_prev_author_created" Grid.Column="1" HorizontalAlignment="Left" Margin="0,256.793,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28.96" Width="389" FontFamily="Roboto Thin" FontSize="20" TextAlignment="Center"><Run FontFamily="Roboto Light" Text=""/></TextBlock>
+            <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="0,290.753,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="27.46" Width="389" FontFamily="Roboto Thin" FontSize="16" TextAlignment="Center"/>
+            <TextBlock x:Name="Tb_prev_desc_created" Grid.Column="1" HorizontalAlignment="Left" Margin="0,318.213,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="142.787" Width="379" FontFamily="Roboto Thin" FontSize="20" TextAlignment="Center"><Run FontFamily="Roboto Light" Text=""/></TextBlock>
+            <Button x:Name="Btn_BackToRecipePortal_FromCreated" Content="" Grid.Column="1" HorizontalAlignment="Left" Height="35" Margin="344,0,0,0" VerticalAlignment="Top" Width="35" BorderBrush="{x:Null}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border
+                                    x:Name="border"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="Black">
+                                        <Grid>
+                                            <Image
+                                            x:Name="buttonImage"
+                                            Source ="Images/ic_arrow_back_black_48dp.png"
+                                            Stretch="UniformToFill" />
+                                            <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="buttonImage" Property="Source" Value="Images/OrangeArrow.png" />
+
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <ListBoxItem x:Name="Lb_Title_CreatedRecipes" Content="{DynamicResource ResourceKey=l_createdrecipes}" FontSize="30" FontFamily="Roboto Black" Foreground="#FF424242" Margin="10,4.493,38.5,426.5"/>
+            <Button x:Name="btn_CreateRecipe" Content="{DynamicResource ResourceKey=btn_create_recipe}" BorderBrush="{x:Null}" Background="White" Foreground="#FFFF8F00" FontFamily="Roboto Light" FontSize="22" HorizontalContentAlignment="Left" Margin="12.5,46.5,54,392.54"/>
+        </Grid>
+        <Grid x:Name="CookedRecipesGrid" Grid.Column="1" HorizontalAlignment="Left" Height="471" Grid.Row="1" VerticalAlignment="Top" Width="789" Grid.RowSpan="2" Visibility="Hidden" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="400"/>
+                <ColumnDefinition Width="*" MinWidth="400"/>
+            </Grid.ColumnDefinitions>
+            <ListBox x:Name="Lb_CookedRecipes" HorizontalAlignment="Left" Height="410.5" Margin="10,50.5,0,0" VerticalAlignment="Top" Width="354.5" SelectionChanged="Lb_CookedRecipesSelectionChanged" MouseDoubleClick="doubleclick_open_from_cooked"/>
+            <Ellipse x:Name="Img_prev_cooked" Grid.Column="1" HorizontalAlignment="Left" Height="188.5" Margin="101.5,10,0,0" VerticalAlignment="Top" Width="188.5">
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="Images/munchyIconv2.png"/>
+                </Ellipse.Fill>
+            </Ellipse>
+            <TextBlock x:Name="Tb_prev_name_cooked" Grid.Column="1" HorizontalAlignment="Left" Margin="0,219.5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="32.293" Width="389" FontFamily="Roboto Black" FontSize="24" TextAlignment="Center"/>
+            <TextBlock x:Name="Tb_prev_author_cooked" Grid.Column="1" HorizontalAlignment="Left" Margin="0,256.793,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28.96" Width="389" FontFamily="Roboto Thin" FontSize="20" TextAlignment="Center"><Run FontFamily="Roboto Light" Text=""/></TextBlock>
+            <TextBlock x:Name="Tb_prev_rating_cooked" Grid.Column="1" HorizontalAlignment="Left" Margin="0,290.753,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="27.46" Width="389" FontFamily="Roboto Thin" FontSize="16" TextAlignment="Center"/>
+            <TextBlock x:Name="Tb_prev_desc_cooked" Grid.Column="1" HorizontalAlignment="Left" Margin="0,318.213,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="142.787" Width="379" FontFamily="Roboto Thin" FontSize="20" TextAlignment="Center"><Run FontFamily="Roboto Light" Text=""/></TextBlock>
+            <Button x:Name="Btn_BackToRecipePortal_FromCooked" Content="" Grid.Column="1" HorizontalAlignment="Left" Height="35" Margin="344,0,0,0" VerticalAlignment="Top" Width="35" BorderBrush="{x:Null}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border
+                                    x:Name="border"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="Black">
+                                        <Grid>
+                                            <Image
+                                            x:Name="buttonImage"
+                                            Source ="Images/ic_arrow_back_black_48dp.png"
+                                            Stretch="UniformToFill" />
+                                            <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="buttonImage" Property="Source" Value="Images/OrangeArrow.png" />
+
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <ListBoxItem x:Name="Lb_Title_CreatedRecipes_Copy" Content="{DynamicResource ResourceKey=l_cookedrecipes}" FontSize="30" FontFamily="Roboto Black" Foreground="#FF424242" Margin="10,10,39.5,420.993"/>
+        </Grid>
+        <Grid x:Name="CreateMenuGrid" Grid.Column="1" HorizontalAlignment="Left" Height="471" Grid.Row="1" VerticalAlignment="Top" Width="789" Grid.RowSpan="2" Visibility="Hidden" Grid.ColumnSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="281*"/>
+                <RowDefinition Height="190*"/>
+            </Grid.RowDefinitions>
+            <Ellipse x:Name="RecipeImgInput" HorizontalAlignment="Left" Height="162" Margin="46,10,0,0" VerticalAlignment="Top" Width="162" MouseUp="click_add_img">
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="Images/btnadd.png"/>
+                </Ellipse.Fill>
+            </Ellipse>
+            <TextBox x:Name="Tb_RecipeNameInput" HorizontalAlignment="Left" Height="36" Margin="28,186,0,0" TextWrapping="Wrap" Text="{DynamicResource ResourceKey=tb_recipe_name}" VerticalAlignment="Top" Width="202" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontFamily="Roboto Black" Foreground="#FF424242" GotFocus="tb_got_focus"/>
+            <TextBox x:Name="Tb_TimeToCookInput" HorizontalAlignment="Left" Height="36" Margin="28,227,0,0" TextWrapping="Wrap" Text="{DynamicResource ResourceKey=tb_timetocook}" VerticalAlignment="Top" Width="202" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontFamily="Roboto Light" Foreground="#FF424242" GotFocus="tb_got_focus"/>
+            <TextBox x:Name="Tb_DescInput" HorizontalAlignment="Left" Height="130" Margin="28,268,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="202" FontSize="20" HorizontalContentAlignment="Center" FontFamily="Roboto" Text="{DynamicResource ResourceKey=tb_recipe_desc}" Foreground="#FF424242" GotFocus="tb_got_focus" Grid.RowSpan="2"/>
+            <ListBoxItem x:Name="Lb_Label_Ingrs" Content="{DynamicResource ResourceKey=l_Ingredients}" FontSize="22" FontFamily="Roboto Black" Margin="253.223,189.136,295.777,61.46" Foreground="#FF424242"/>
+            <Button x:Name="btn_AddIngrs" Content="{DynamicResource ResourceKey=btn_add}" BorderBrush="{x:Null}" Background="White" Foreground="#FFFF8F00" FontFamily="Roboto Light" FontSize="18" HorizontalContentAlignment="Left" Click="btn_cmd_openingrwindow" Margin="253.223,221.54,419.667,33.5"/>
+            <ListBox x:Name="Lb_IngredientList" HorizontalAlignment="Left" Height="147.5" Margin="250,250.5,0,0" VerticalAlignment="Top" Width="244" BorderBrush="{x:Null}" Foreground="#FF424242" SelectedIndex="0" Grid.RowSpan="2"/>
+            <ListBoxItem x:Name="Lb_Label_Steps" Content="{DynamicResource ResourceKey=l_steps}" FontSize="22" FontFamily="Roboto Black" Margin="498.223,189.136,50.777,61.46" Foreground="#FF424242"/>
+            <Button x:Name="btn_AddSteps" BorderBrush="{x:Null}" Background="White" Foreground="#FFFF8F00" Content="{DynamicResource ResourceKey=btn_add}" FontSize="18" FontFamily="Roboto Light" HorizontalContentAlignment="Left" Margin="503.5,221.54,150.333,33.043"/>
+            <ListBox x:Name="Lb_StepList" HorizontalAlignment="Left" Height="147.5" Margin="503.5,250.5,0,0" VerticalAlignment="Top" Width="244" BorderBrush="{x:Null}" Foreground="#FF424242" Grid.RowSpan="2"/>
+            <ListBoxItem x:Name="Lb_Label_Tags" Content="{DynamicResource ResourceKey=l_tags}" FontSize="22" FontFamily="Roboto Black" Foreground="#FF424242" Margin="250,12,299,238.596"/>
+            <Button x:Name="btn_AddRecipeTags" BorderBrush="{x:Null}" Background="White" Foreground="#FFFF8F00" Content="{DynamicResource ResourceKey=btn_add}" FontSize="18" FontFamily="Roboto Light" HorizontalContentAlignment="Left" Margin="250,42.404,403.833,212.179"/>
+            <ListBox x:Name="Lb_RecipeTagList" HorizontalAlignment="Left" Height="103.667" Margin="250,68.333,0,0" VerticalAlignment="Top" Width="244" BorderBrush="{x:Null}"/>
+            <ListBox x:Name="Lb_TimeOfDayTagList" HorizontalAlignment="Left" Height="162" Margin="503.5,10,0,0" VerticalAlignment="Top" Width="244" BorderBrush="{x:Null}" Foreground="#FF424242">
+                <ListBoxItem x:Name="Lb_Label_TimeOfDay" Content="{DynamicResource ResourceKey=l_timetags}" FontSize="22" FontFamily="Roboto Black" Width="234" Foreground="#FF424242"/>
+                <CheckBox x:Name="cb_AddBreakfast" BorderBrush="#FFFF8F00" Content="{DynamicResource ResourceKey=cb_breakfast}" FontSize="18" FontFamily="Roboto Light" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Checked="on_timetag_checked" Unchecked="on_timetag_unchecked" Foreground="#FF424242"/>
+                <CheckBox x:Name="cb_AddLunch" BorderBrush="#FFFF8F00" Content="{DynamicResource ResourceKey=cb_lunch}" FontSize="18" FontFamily="Roboto Light" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FF424242"/>
+                <CheckBox x:Name="cb_AddDinner" BorderBrush="#FFFF8F00" Content="{DynamicResource ResourceKey=cb_dinner}" FontSize="18" FontFamily="Roboto Light" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FF424242"/>
+            </ListBox>
+            <Button x:Name="btn_PublishRecipe" Content="{DynamicResource ResourceKey=btn_publish}" HorizontalAlignment="Left" Height="43.5" VerticalAlignment="Top" Width="171.75" FontFamily="Roboto Black" FontSize="22" BorderBrush="{x:Null}" Background="#FFFF8F00" Foreground="White" Margin="422.917,136.5,0,0" Click="btn_cmd_publishrecipe" Grid.Row="1">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border
+                                    RenderOptions.EdgeMode="Aliased"
+                                    x:Name="border"
+                                    Background="#FFFF8F00"
+                                    BorderBrush="#FFFF8F00"
+                                    BorderThickness="5"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="#ffffff">
+                                        <Grid>
+                                            <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#ffffff"/>
+                                            <Setter TargetName="border" Property="TextBlock.Foreground" Value="#FFFF8F00" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button x:Name="btn_CancelRecipeCreation" Content="{DynamicResource ResourceKey=btn_cancel}" HorizontalAlignment="Left" Height="43.5" VerticalAlignment="Top" Width="171.75" FontFamily="Roboto Black" FontSize="22" BorderBrush="{x:Null}" Background="#FFFF8F00" Foreground="White" Margin="197.583,136.5,0,0" Click="btn_cmd_cancelpublish" Grid.Row="1">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border
+                                    RenderOptions.EdgeMode="Aliased"
+                                    x:Name="border"
+                                    Background="#FFFF8F00"
+                                    BorderBrush="#FFFF8F00"
+                                    BorderThickness="5"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="#ffffff">
+                                        <Grid>
+                                            <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#ffffff"/>
+                                            <Setter TargetName="border" Property="TextBlock.Foreground" Value="#FFFF8F00" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid x:Name="LoginPanel" Grid.ColumnSpan="3" HorizontalAlignment="Left" Height="571" Grid.RowSpan="3" VerticalAlignment="Top" Width="894" Background="White">
+            <Rectangle x:Name="AppLogo" HorizontalAlignment="Left" Height="276" Margin="321,40,0,0" VerticalAlignment="Top" Width="276">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="Images/munchyIconv2.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Button x:Name="Btn_SignIn" Content="{DynamicResource ResourceKey=btn_sign_in}" HorizontalAlignment="Left" Height="52.5" Margin="321,334,0,0" VerticalAlignment="Top" Width="276" FontSize="30" FontFamily="Roboto Black" BorderBrush="#FFFF8F00" Background="#FFFF8F00" Foreground="White" Click="Begin_Sign_In" BorderThickness="5">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border
+                                    RenderOptions.EdgeMode="Aliased"
+                                    x:Name="border"
+                                    Background="#FFFF8F00"
+                                    BorderBrush="#FFFF8F00"
+                                    BorderThickness="5"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="#ffffff">
+                                        <Grid>
+                                            <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#ffffff"/>
+                                            <Setter TargetName="border" Property="TextBlock.Foreground" Value="#FFFF8F00" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button x:Name="btn_Exit" Content="{DynamicResource ResourceKey=btn_app_exit}" HorizontalAlignment="Left" Height="52.5" Margin="321,419.5,0,0" VerticalAlignment="Top" Width="276" FontSize="30" FontFamily="Roboto Black" BorderBrush="{x:Null}" Background="#FFFF8F00" Foreground="White" Click="btn_cmd_exit">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border
+                                    RenderOptions.EdgeMode="Aliased"
+                                    x:Name="border"
+                                    Background="#FFFF8F00"
+                                    BorderBrush="#FFFF8F00"
+                                    BorderThickness="5"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="#ffffff">
+                                        <Grid>
+                                            <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#ffffff"/>
+                                            <Setter TargetName="border" Property="TextBlock.Foreground" Value="#FFFF8F00" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid x:Name="AddIngrsMenu" Grid.Column="1" HorizontalAlignment="Left" Height="471" Grid.Row="1" VerticalAlignment="Top" Width="789" Grid.RowSpan="2" Visibility="Hidden" Grid.ColumnSpan="2">
+            <ListBox x:Name="Lb_CurrentIngrList" HorizontalAlignment="Left" Height="395" Margin="10,10,0,0" VerticalAlignment="Top" Width="337" SelectedIndex="0" BorderBrush="#7FFF8F00"/>
+            <TextBox x:Name="Tb_IngrSearch" HorizontalAlignment="Left" Height="32" Margin="405,10,0,0" TextWrapping="Wrap" Text="{DynamicResource ResourceKey=tb_search}" VerticalAlignment="Top" Width="328" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20" FontFamily="Roboto" Foreground="#FFFF8F00" SelectionBrush="#7FFF8F00" BorderBrush="#FF515151" Visibility="Hidden"/>
+            <ListBox x:Name="Lb_IngrSearchResultList" HorizontalAlignment="Left" Height="212" Margin="405,10,0,0" VerticalAlignment="Top" Width="328" BorderBrush="#7FFF8F00" FontFamily="Roboto" FontSize="18"/>
+            <TextBox x:Name="Tb_IngrAmount" HorizontalAlignment="Left" Height="32" Margin="405,245,0,0" TextWrapping="Wrap" Text="{DynamicResource ResourceKey=tb_ingr_amount}" VerticalAlignment="Top" Width="328" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20" FontFamily="Roboto Light" Foreground="#FFFF8F00" SelectionBrush="#7FFF8F00" BorderBrush="#FF252525" GotFocus="tb_got_focus"/>
+            <Button x:Name="btn_AddIngr" Content="{DynamicResource ResourceKey=btn_add}" HorizontalAlignment="Left" Height="33" Margin="517,413,0,0" VerticalAlignment="Top" Width="118" FontFamily="Roboto Black" FontSize="20" BorderBrush="{x:Null}" Background="#FFFF8F00" Foreground="White" Click="btn_cmd_addingr">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border
+                                    RenderOptions.EdgeMode="Aliased"
+                                    x:Name="border"
+                                    Background="#FFFF8F00"
+                                    BorderBrush="#FFFF8F00"
+                                    BorderThickness="5"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="#ffffff">
+                                        <Grid>
+                                            <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#ffffff"/>
+                                            <Setter TargetName="border" Property="TextBlock.Foreground" Value="#FFFF8F00" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <ListBox x:Name="Lb_UnitList" HorizontalAlignment="Left" Height="112" Margin="405,293,0,0" VerticalAlignment="Top" Width="328" BorderBrush="#7FFF8F00" FontFamily="Roboto" FontSize="18" SelectionChanged="Lb_IngrUnitsSelectionChanged">
+                <RadioButton Content="{DynamicResource ResourceKey=rb_cups}" BorderBrush="#FFFF8F00" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="2"/>
+                <RadioButton Content="{DynamicResource ResourceKey=rb_tbsp}" BorderBrush="#FFFF8F00" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="2"/>
+                <RadioButton Content="{DynamicResource ResourceKey=rb_tsp}" BorderBrush="#FFFF8F00" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="2"/>
+                <RadioButton Content="{DynamicResource ResourceKey=rb_grams}" BorderBrush="#FFFF8F00" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="2"/>
+                <RadioButton Content="{DynamicResource ResourceKey=rb_ml}" BorderBrush="#FFFF8F00" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="2"/>
+                <RadioButton Content="{DynamicResource ResourceKey=rb_count}" BorderBrush="#FFFF8F00" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="2"/>
+            </ListBox>
+            <Button x:Name="btn_ClearIngrList" Content="{DynamicResource ResourceKey=btn_clear}" HorizontalAlignment="Left" Height="33" Margin="38.5,413,0,0" VerticalAlignment="Top" Width="118" FontFamily="Roboto Black" FontSize="20" BorderBrush="{x:Null}" Background="#FFFF8F00" Foreground="White" Click="btn_cmd_clearingrs">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border
+                                    RenderOptions.EdgeMode="Aliased"
+                                    x:Name="border"
+                                    Background="#FFFF8F00"
+                                    BorderBrush="#FFFF8F00"
+                                    BorderThickness="5"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="#ffffff">
+                                        <Grid>
+                                            <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#ffffff"/>
+                                            <Setter TargetName="border" Property="TextBlock.Foreground" Value="#FFFF8F00" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button x:Name="btn_RemoveFromIngrs" Content="{DynamicResource ResourceKey=btn_remove}" HorizontalAlignment="Left" Height="33" Margin="193,413,0,0" VerticalAlignment="Top" Width="118" FontFamily="Roboto Black" FontSize="20" BorderBrush="{x:Null}" Background="#FFFF8F00" Foreground="White" Click="btn_cmd_removeingr" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="1,1,1,2">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border
+                                    RenderOptions.EdgeMode="Aliased"
+                                    x:Name="border"
+                                    Background="#FFFF8F00"
+                                    BorderBrush="#FFFF8F00"
+                                    BorderThickness="5"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="#ffffff">
+                                        <Grid>
+                                            <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#ffffff"/>
+                                            <Setter TargetName="border" Property="TextBlock.Foreground" Value="#FFFF8F00" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button x:Name="btn_ReturnToCreateMenu_ingrs" Content="" HorizontalAlignment="Left" Margin="744,0,0,0" VerticalAlignment="Top" Width="35" Height="35.5" BorderBrush="{x:Null}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border
+                                    x:Name="border"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="Black">
+                                        <Grid>
+                                            <Image
+                                            x:Name="buttonImage"
+                                            Source ="Images/ic_arrow_back_black_48dp.png"
+                                            Stretch="UniformToFill" />
+                                            <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="buttonImage" Property="Source" Value="Images/OrangeArrow.png" />
+
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid x:Name="RecipeStepsGrid" Grid.Column="1" HorizontalAlignment="Left" Height="471" Grid.Row="1" VerticalAlignment="Top" Width="789" Grid.RowSpan="2" Visibility="Hidden" Grid.ColumnSpan="2">
+            <TextBox x:Name="Tb_StepInput" HorizontalAlignment="Left" Height="32.5" Margin="31,32,0,0" TextWrapping="Wrap" Text="{DynamicResource ResourceKey=tb_step_input}" VerticalAlignment="Top" Width="725.5" FontSize="20" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" GotFocus="tb_got_focus"/>
+            <ListBox x:Name="Lb_RecipeStepInputList" HorizontalAlignment="Left" Height="331" Margin="31,77.5,0,0" VerticalAlignment="Top" Width="725.5"/>
+            <Button x:Name="btn_AddStep" Content="{DynamicResource ResourceKey=btn_add}" HorizontalAlignment="Left" Height="33" Margin="422.5,422.5,0,0" VerticalAlignment="Top" Width="118" FontFamily="Roboto Black" FontSize="20" BorderBrush="{x:Null}" Background="#FFFF8F00" Foreground="White" Click="btn_cmd_addstep">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border
+                                    RenderOptions.EdgeMode="Aliased"
+                                    x:Name="border"
+                                    Background="#FFFF8F00"
+                                    BorderBrush="#FFFF8F00"
+                                    BorderThickness="5"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="#ffffff">
+                                        <Grid>
+                                            <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#ffffff"/>
+                                            <Setter TargetName="border" Property="TextBlock.Foreground" Value="#FFFF8F00" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button x:Name="btn_RemoveStep" Content="{DynamicResource ResourceKey=btn_remove}" HorizontalAlignment="Left" Height="33" Margin="271,422.5,0,0" VerticalAlignment="Top" Width="118" FontFamily="Roboto Black" FontSize="20" BorderBrush="{x:Null}" Background="#FFFF8F00" Foreground="White" Click="btn_cmd_removestep">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border
+                                    RenderOptions.EdgeMode="Aliased"
+                                    x:Name="border"
+                                    Background="#FFFF8F00"
+                                    BorderBrush="#FFFF8F00"
+                                    BorderThickness="5"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="#ffffff">
+                                        <Grid>
+                                            <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#ffffff"/>
+                                            <Setter TargetName="border" Property="TextBlock.Foreground" Value="#FFFF8F00" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button x:Name="btn_ReturnToCreateMenu_steps" Content="" HorizontalAlignment="Left" Margin="744,0,0,0" VerticalAlignment="Top" Width="35" Height="35.5" BorderBrush="{x:Null}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border
+                                    x:Name="border"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="Black">
+                                        <Grid>
+                                            <Image
+                                            x:Name="buttonImage"
+                                            Source ="Images/ic_arrow_back_black_48dp.png"
+                                            Stretch="UniformToFill" />
+                                            <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="buttonImage" Property="Source" Value="Images/OrangeArrow.png" />
+
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid x:Name="RecipeTagInput" Grid.Column="1" HorizontalAlignment="Left" Height="471" Grid.Row="1" VerticalAlignment="Top" Width="789" Grid.RowSpan="2" Visibility="Hidden" Grid.ColumnSpan="2">
+            <ListBox x:Name="Lb_ListDisplayingAvailablePrefs_Copy" HorizontalAlignment="Left" Height="360.5" Margin="212,10,0,0" VerticalAlignment="Top" Width="358" FontSize="22" FontFamily="Roboto" Padding="0,5" BorderBrush="{x:Null}">
+                <TextBlock Text="Recipe Tags" FontSize="36" FontFamily="Roboto Black" Padding="0,0,0,5"/>
+                <CheckBox x:Name="cb_vegetarian" Content="{DynamicResource ResourceKey=recipe_pref_vegetarian}" BorderBrush="#FFFF8F00" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="2" Margin="0,0,0,5" Checked="on_recipe_tag_checked"  Unchecked="on_recipe_tag_unchecked"/>
+                <CheckBox x:Name="cb_vegan" Content="{DynamicResource ResourceKey=recipe_pref_vegan}" BorderBrush="#FFFF8F00" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="2" Margin="0,0,0,5" Checked="on_recipe_tag_checked"  Unchecked="on_recipe_tag_unchecked"/>
+                <CheckBox x:Name="cb_diabetic" Content="{DynamicResource ResourceKey=recipe_pref_diabetic}" BorderBrush="#FFFF8F00" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="2" Margin="0,0,0,5" Checked="on_recipe_tag_checked"  Unchecked="on_recipe_tag_unchecked"/>
+                <CheckBox x:Name="cb_a_dairy" Content="{DynamicResource ResourceKey=recipe_pref_a_milk}" BorderBrush="#FFFF8F00" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="2" Margin="0,0,0,5" Checked="on_recipe_tag_checked"  Unchecked="on_recipe_tag_unchecked"/>
+                <CheckBox x:Name="cb_a_eggs" Content="{DynamicResource ResourceKey=recipe_pref_a_eggs}" BorderBrush="#FFFF8F00" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="2" Margin="0,0,0,5" Checked="on_recipe_tag_checked"  Unchecked="on_recipe_tag_unchecked"/>
+                <CheckBox x:Name="cb_a_gluten" Content="{DynamicResource ResourceKey=recipe_pref_a_gluten}" BorderBrush="#FFFF8F00" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="2" Margin="0,0,0,5" Checked="on_recipe_tag_checked"  Unchecked="on_recipe_tag_unchecked"/>
+                <CheckBox x:Name="cb_a_fish" Content="{DynamicResource ResourceKey=recipe_pref_a_fish}" BorderBrush="#FFFF8F00" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="2" Margin="0,0,0,5" Checked="on_recipe_tag_checked"  Unchecked="on_recipe_tag_unchecked"/>
+                <CheckBox x:Name="cb_a_nuts" Content="{DynamicResource ResourceKey=recipe_pref_a_nuts}" BorderBrush="#FFFF8F00" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="2" Margin="0,0,0,5" Checked="on_recipe_tag_checked" Unchecked="on_recipe_tag_unchecked"/>
+            </ListBox>
+            <Button x:Name="btn_SaveRecipeTags" Content="{DynamicResource ResourceKey=btn_save}" HorizontalAlignment="Left" Height="43.5" VerticalAlignment="Top" Width="118" FontFamily="Roboto Black" FontSize="20" BorderBrush="{x:Null}" Background="#FFFF8F00" Foreground="White" Margin="323.75,399.5,0,0" Click="btn_cmd_saverecipetags">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border
+                                    RenderOptions.EdgeMode="Aliased"
+                                    x:Name="border"
+                                    Background="#FFFF8F00"
+                                    BorderBrush="#FFFF8F00"
+                                    BorderThickness="5"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="#ffffff">
+                                        <Grid>
+                                            <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#ffffff"/>
+                                            <Setter TargetName="border" Property="TextBlock.Foreground" Value="#FFFF8F00" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button x:Name="btn_ReturnToCreateMenu_tags" Content="" HorizontalAlignment="Left" Margin="744,0,0,0" VerticalAlignment="Top" Width="35" Height="35.5" BorderBrush="{x:Null}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border
+                                    x:Name="border"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="Black">
+                                        <Grid>
+                                            <Image
+                                            x:Name="buttonImage"
+                                            Source ="Images/ic_arrow_back_black_48dp.png"
+                                            Stretch="UniformToFill" />
+                                            <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="buttonImage" Property="Source" Value="Images/OrangeArrow.png" />
+
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#7FF7F4F3" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <Grid x:Name="InfoGrid" Grid.Column="2" HorizontalAlignment="Left" Height="147" Margin="97,374,-381,-1" Grid.Row="1" Grid.RowSpan="2" VerticalAlignment="Top" Width="334" Background="#7FFF8F00" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="3">
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Grid.RenderTransform>
+            <TextBlock x:Name="tb_InfoBlock" HorizontalAlignment="Left" Height="127" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="314" FontFamily="Roboto" FontSize="20" Background="#00000000" Foreground="White"/>
+        </Grid>
+
+
+    </Grid>
+</Window>
